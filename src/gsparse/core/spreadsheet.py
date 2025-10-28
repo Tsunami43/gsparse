@@ -85,7 +85,7 @@ class Spreadsheet:
 		Args:
 			worksheet: Worksheet to add
 		"""
-		# Проверяем, что лист с таким именем еще не существует
+		# Check that a sheet with this name doesn't already exist
 		if self.get_worksheet(worksheet.name):
 			raise ValueError(f"Лист с именем '{worksheet.name}' уже существует")
 		

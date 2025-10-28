@@ -50,9 +50,9 @@ class BaseParser(ABC):
 			return None
 		
 		if isinstance(value, str):
-			# Убираем лишние пробелы и переносы строк
+			# Remove extra spaces and line breaks
 			cleaned = value.strip().replace('\r\n', '\n').replace('\r', '\n')
-			# Если строка пустая после очистки, возвращаем None
+			# If string is empty after cleaning, return None
 			return cleaned if cleaned else None
 		
 		return value
@@ -68,12 +68,12 @@ class BaseParser(ABC):
 		"""
 		import chardet
 		
-		# Пробуем определить кодировку
+		# Try to detect encoding
 		result = chardet.detect(data)
 		encoding = result.get('encoding', 'utf-8')
 		confidence = result.get('confidence', 0)
 		
-		# Если уверенность низкая, используем utf-8 по умолчанию
+		# If confidence is low, use utf-8 by default
 		if confidence < 0.7:
 			encoding = 'utf-8'
 		

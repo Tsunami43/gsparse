@@ -87,18 +87,18 @@ class DataUtils:
 			return value
 		
 		if isinstance(value, str):
-			# Убираем пробелы
+			# Remove spaces
 			cleaned = value.strip()
 			if not cleaned:
 				return None
 			
-			# Пытаемся преобразовать в int
+			# Try to convert to int
 			try:
 				return int(cleaned)
 			except ValueError:
 				pass
 			
-			# Пытаемся преобразовать в float
+			# Try to convert to float
 			try:
 				return float(cleaned)
 			except ValueError:
@@ -144,7 +144,7 @@ class DataUtils:
 		if not column_data:
 			return 'text'
 		
-		# Подсчитываем типы
+		# Count types
 		type_counts = {'number': 0, 'boolean': 0, 'date': 0, 'text': 0}
 		
 		for value in column_data:
@@ -160,7 +160,7 @@ class DataUtils:
 			else:
 				type_counts['text'] += 1
 		
-		# Возвращаем наиболее частый тип
+		# Return the most frequent type
 		return max(type_counts, key=lambda x: type_counts[x])
 	
 	@staticmethod
@@ -176,7 +176,7 @@ class DataUtils:
 		if not isinstance(value, str):
 			return False
 		
-		# Простые паттерны для дат
+		# Simple patterns for dates
 		date_patterns = [
 			r'\d{1,2}/\d{1,2}/\d{4}',  # MM/DD/YYYY
 			r'\d{4}-\d{1,2}-\d{1,2}',  # YYYY-MM-DD
@@ -262,7 +262,7 @@ class DataUtils:
 		
 		empty_columns = DataUtils.find_empty_columns(data)
 		
-		# Создаем новый массив без пустых столбцов
+		# Create new array without empty columns
 		result = []
 		for row in data:
 			new_row = []

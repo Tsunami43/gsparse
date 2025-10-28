@@ -71,8 +71,7 @@ class GSParseClient:
 		worksheets_info = self.downloader.list_worksheets(url)
 		
 		if not worksheets_info:
-			# Если не удалось получить информацию о листах, 
-			# загружаем только первый лист
+			# If unable to get worksheet info, load only the first sheet
 			data = self.downloader.download_sheet(url, "csv")
 			worksheet = self.csv_parser.parse(data, "Sheet1")
 			return Spreadsheet(
@@ -81,7 +80,7 @@ class GSParseClient:
 				url=url
 			)
 		
-		# Загружаем все листы
+		# Load all worksheets
 		worksheets = []
 		for sheet_name, gid in worksheets_info.items():
 			try:
@@ -89,7 +88,7 @@ class GSParseClient:
 				worksheet = self.csv_parser.parse(data, sheet_name)
 				worksheets.append(worksheet)
 			except Exception as e:
-				# Если не удалось загрузить лист, пропускаем его
+				# If unable to load worksheet, skip it
 				print(f"Предупреждение: не удалось загрузить лист '{sheet_name}': {e}")
 				continue
 		

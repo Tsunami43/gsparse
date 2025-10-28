@@ -103,7 +103,7 @@ class GoogleSheetsDownloader:
 		if gid:
 			params["gid"] = gid
 		
-		# Добавляем параметры к URL
+		# Add parameters to URL
 		param_string = "&".join([f"{k}={v}" for k, v in params.items()])
 		return f"{url}?{param_string}"
 	
@@ -154,12 +154,12 @@ class GoogleSheetsDownloader:
 		if not sheet_id:
 			raise ValueError("Не удалось извлечь ID таблицы из URL")
 		
-		# Пытаемся получить информацию через API (если доступно)
-		# Пока возвращаем базовую информацию
+		# Try to get information via API (if available)
+		# For now, return basic information
 		return {
 			"sheet_id": sheet_id,
 			"url": url,
-			"is_public": True,  # Предполагаем, что таблица публичная
+			"is_public": True,  # Assume the sheet is public
 		}
 	
 	def list_worksheets(self, url: str) -> Optional[Dict[str, str]]:
@@ -171,12 +171,12 @@ class GoogleSheetsDownloader:
 		Returns:
 			Dictionary {worksheet_name: gid} or None if failed to get
 		"""
-		# Это упрощенная реализация
-		# В реальной версии нужно использовать Google Sheets API
-		# или парсить HTML страницу таблицы
+		# This is a simplified implementation
+		# In a real version, need to use Google Sheets API
+		# or parse the table's HTML page
 		try:
-			# Пытаемся скачать CSV первого листа
+			# Try to download CSV of the first sheet
 			self.download_sheet(url, "csv")
-			return {"Sheet1": "0"}  # Предполагаем, что есть лист с gid=0
+			return {"Sheet1": "0"}  # Assume there's a sheet with gid=0
 		except:
 			return None

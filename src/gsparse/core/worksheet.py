@@ -148,14 +148,14 @@ class Worksheet:
 		if not self.data or headers_row > self.row_count:
 			return []
 		
-		# Получаем заголовки
+		# Get headers
 		header_cells = self.get_row(headers_row)
 		headers = [cell.value for cell in header_cells if cell and not cell.is_empty]
 		
 		if not headers:
 			return []
 		
-		# Получаем данные
+		# Get data
 		result = []
 		for row_num in range(headers_row + 1, self.row_count + 1):
 			row_cells = self.get_row(row_num)
