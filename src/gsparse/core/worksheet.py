@@ -188,6 +188,89 @@ class Worksheet:
 				cells.append(cell)
 		return cells
 	
+	def remove_empty_rows(self) -> 'Worksheet':
+		"""Removes empty rows from the worksheet.
+		
+		Returns:
+			New Worksheet instance without empty rows
+		"""
+		if not self.data:
+			return self
+		
+		# Filter out empty rows
+		non_empty_rows = []
+		for row in self.data:
+			# Check if row has any non-empty values
+			if any(cell is not None and str(cell).strip() for cell in row):
+				non_empty_rows.append(row)
+		
+		# Calculate new dimensions
+		new_row_count = len(non_empty_rows)
+		new_column_count = max(len(row) for row in non_empty_rows) if non_empty_rows else 0
+		
+		# Normalize rows to have same length
+		normalized_rows = []
+		for row in non_empty_rows:
+			normalized_row = row + [None] * (new_column_count - len(row))
+			normalized_rows.append(normalized_row)
+		
+		return Worksheet(
+			name=self.name,
+			data=normalized_rows,
+			row_count=new_row_count,
+			column_count=new_column_count
+		)
+	
+	def remove_empty_columns(self) -> 'Worksheet':
+		"""Removes empty columns from the worksheet.
+		
+		Returns:
+			New Worksheet instance without empty columns
+		"""
+		if not self.data or not self.column_count:
+			return self
+		
+		# Find empty columns
+		empty_columns = set()
+		for col_idx in range(self.column_count):
+			is_empty = True
+			for row in self.data:
+				if col_idx < len(row) and row[col_idx] is not None and str(row[col_idx]).strip():
+					is_empty = False
+					break
+			if is_empty:
+				empty_columns.add(col_idx)
+		
+		# Create new data without empty columns
+		new_data = []
+		for row in self.data:
+			new_row = []
+			for col_idx, cell in enumerate(row):
+				if col_idx not in empty_columns:
+					new_row.append(cell)
+			new_data.append(new_row)
+		
+		# Calculate new dimensions
+		new_row_count = len(new_data)
+		new_column_count = max(len(row) for row in new_data) if new_data else 0
+		
+		return Worksheet(
+			name=self.name,
+			data=new_data,
+			row_count=new_row_count,
+			column_count=new_column_count
+		)
+	
+	def clean_data(self) -> 'Worksheet':
+		"""Removes both empty rows and empty columns from the worksheet.
+		
+		Returns:
+			New Worksheet instance with cleaned data
+		"""
+		# First remove empty rows, then empty columns
+		cleaned_worksheet = self.remove_empty_rows()
+		return cleaned_worksheet.remove_empty_columns()
+	
 	def __iter__(self) -> Iterator[Cell]:
 		"""Iterator over all cells in the worksheet."""
 		return iter(self.get_all_cells())
