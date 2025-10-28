@@ -17,8 +17,6 @@ Library for extracting data from Google Sheets by URL. Supports working with mul
 
 ## Installation
 
-### From GitHub
-
 ```bash
 pip install gsparse
 ```
