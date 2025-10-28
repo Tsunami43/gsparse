@@ -54,11 +54,16 @@ class CSVParser(BaseParser):
 			else:
 				raise ValueError("Failed to decode data with any supported encoding")
 		
+		# Auto-detect quote character if not explicitly set
+		quotechar = self.quotechar
+		if quotechar == '"':  # Only auto-detect if using default
+			quotechar = self._detect_quote_char(text_data)
+		
 		# Parse CSV
 		csv_reader = csv.reader(
 			io.StringIO(text_data),
 			delimiter=self.delimiter,
-			quotechar=self.quotechar
+			quotechar=quotechar
 		)
 		
 		# Read all rows
@@ -130,6 +135,40 @@ class CSVParser(BaseParser):
 			Worksheet object
 		"""
 		return self.parse(csv_string.encode('utf-8'), worksheet_name)
+	
+	def _detect_quote_char(self, text_data: str) -> str:
+		"""Automatically detects quote character in CSV data.
+		
+		Args:
+			text_data: CSV text data
+			
+		Returns:
+			Detected quote character
+		"""
+		# Read first few lines for analysis
+		lines = text_data.split('\n')[:5]
+		
+		# Count frequency of different quote characters
+		quote_chars = ['"', "'", '`']
+		quote_counts = {}
+		
+		for quote_char in quote_chars:
+			count = 0
+			for line in lines:
+				if line.strip():
+					# Count occurrences where quote appears at start/end of fields
+					# Look for patterns like 'value' or "value"
+					import re
+					pattern = f'^{re.escape(quote_char)}.*{re.escape(quote_char)}$'
+					fields = line.split(self.delimiter)
+					for field in fields:
+						field = field.strip()
+						if re.match(pattern, field):
+							count += 1
+			quote_counts[quote_char] = count
+		
+		# Return quote character with highest frequency, default to double quotes
+		return max(quote_counts, key=lambda x: quote_counts[x]) if any(quote_counts.values()) else '"'
 	
 	def detect_delimiter(self, data: bytes) -> str:
 		"""Automatically detects delimiter in CSV data.

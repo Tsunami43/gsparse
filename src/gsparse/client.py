@@ -135,7 +135,13 @@ class GSParseClient:
 		Returns:
 			Worksheet object
 		"""
-		return self.csv_parser.parse_from_string(csv_string, worksheet_name)
+		# Detect delimiter automatically
+		detected_delimiter = self.csv_parser.detect_delimiter(csv_string.encode('utf-8'))
+		
+		# Create parser with detected delimiter
+		parser = CSVParser(delimiter=detected_delimiter)
+		
+		return parser.parse_from_string(csv_string, worksheet_name)
 	
 	def get_sheet_info(self, url: str) -> Dict[str, Any]:
 		"""Gets information about the table.
