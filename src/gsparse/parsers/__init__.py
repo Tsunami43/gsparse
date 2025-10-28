@@ -1,7 +1,7 @@
 """Modules for parsing downloaded data."""
 
+from .base_parser import BaseParser
 from .csv_parser import CSVParser
 from .xlsx_parser import XLSXParser
-from .base_parser import BaseParser
 
-__all__ = ["CSVParser", "XLSXParser", "BaseParser"]
+__all__ = ['CSVParser', 'XLSXParser', 'BaseParser']
