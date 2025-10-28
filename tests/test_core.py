@@ -139,6 +139,42 @@ class TestWorksheet:
 		assert result[0]["Age"] == "25"
 		assert result[1]["Name"] == "Mary"
 		assert result[1]["Age"] == "30"
+	
+	def test_worksheet_get_columns(self):
+		"""Test getting all columns."""
+		data = [["A", "B", "C"], ["1", "2", "3"], ["X", "Y", "Z"]]
+		worksheet = Worksheet("Test", data, 3, 3)
+		
+		columns = worksheet.get_columns()
+		assert len(columns) == 3
+		assert columns[0] == ["A", "1", "X"]
+		assert columns[1] == ["B", "2", "Y"]
+		assert columns[2] == ["C", "3", "Z"]
+	
+	def test_worksheet_get_rows(self):
+		"""Test getting all rows."""
+		data = [["A", "B", "C"], ["1", "2", "3"], ["X", "Y", "Z"]]
+		worksheet = Worksheet("Test", data, 3, 3)
+		
+		rows = worksheet.get_rows()
+		assert len(rows) == 3
+		assert rows[0] == ["A", "B", "C"]
+		assert rows[1] == ["1", "2", "3"]
+		assert rows[2] == ["X", "Y", "Z"]
+	
+	def test_worksheet_get_columns_empty(self):
+		"""Test getting columns from empty worksheet."""
+		worksheet = Worksheet("Empty", [], 0, 0)
+		
+		columns = worksheet.get_columns()
+		assert columns == []
+	
+	def test_worksheet_get_rows_empty(self):
+		"""Test getting rows from empty worksheet."""
+		worksheet = Worksheet("Empty", [], 0, 0)
+		
+		rows = worksheet.get_rows()
+		assert rows == []
 
 
 class TestSpreadsheet:

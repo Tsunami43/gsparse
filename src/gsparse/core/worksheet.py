@@ -136,6 +136,39 @@ class Worksheet:
 				cells.append(cell)
 		return cells
 	
+	def get_columns(self) -> List[List[Any]]:
+		"""Gets all columns as a list of lists.
+		
+		Returns:
+			List where each element is a column (list of values)
+		"""
+		if not self.data or not self.column_count:
+			return []
+		
+		columns = []
+		for col_idx in range(self.column_count):
+			column = []
+			for row in self.data:
+				if col_idx < len(row):
+					column.append(row[col_idx])
+				else:
+					column.append(None)
+			columns.append(column)
+		
+		return columns
+	
+	def get_rows(self) -> List[List[Any]]:
+		"""Gets all rows as a list of lists.
+		
+		Returns:
+			List where each element is a row (list of values)
+		"""
+		if not self.data:
+			return []
+		
+		# Return a copy of the data to avoid external modifications
+		return [row.copy() for row in self.data]
+	
 	def get_data_as_dict(self, headers_row: int = 1) -> List[Dict[str, Any]]:
 		"""Converts data to list of dictionaries using specified row as headers.
 		
