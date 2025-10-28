@@ -12,7 +12,8 @@ class TestGSParseClient:
 		client = GSParseClient()
 		assert client is not None
 		assert client.downloader is not None
-		assert client.parser is not None
+		assert client.csv_parser is not None
+		assert client.xlsx_parser is not None
 	
 	def test_load_from_csv_string(self):
 		"""Test loading from CSV string."""
