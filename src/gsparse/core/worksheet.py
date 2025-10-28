@@ -271,6 +271,78 @@ class Worksheet:
 		cleaned_worksheet = self.remove_empty_rows()
 		return cleaned_worksheet.remove_empty_columns()
 	
+	def remove_empty_rows_inplace(self) -> None:
+		"""Removes empty rows from the worksheet in place.
+		
+		Modifies the current worksheet object.
+		"""
+		if not self.data:
+			return
+		
+		# Filter out empty rows
+		non_empty_rows = []
+		for row in self.data:
+			# Check if row has any non-empty values
+			if any(cell is not None and str(cell).strip() for cell in row):
+				non_empty_rows.append(row)
+		
+		# Update data
+		self.data = non_empty_rows
+		
+		# Update dimensions
+		self.row_count = len(non_empty_rows)
+		self.column_count = max(len(row) for row in non_empty_rows) if non_empty_rows else 0
+		
+		# Normalize rows to have same length
+		normalized_rows = []
+		for row in self.data:
+			normalized_row = row + [None] * (self.column_count - len(row))
+			normalized_rows.append(normalized_row)
+		
+		self.data = normalized_rows
+	
+	def remove_empty_columns_inplace(self) -> None:
+		"""Removes empty columns from the worksheet in place.
+		
+		Modifies the current worksheet object.
+		"""
+		if not self.data or not self.column_count:
+			return
+		
+		# Find empty columns
+		empty_columns = set()
+		for col_idx in range(self.column_count):
+			is_empty = True
+			for row in self.data:
+				if col_idx < len(row) and row[col_idx] is not None and str(row[col_idx]).strip():
+					is_empty = False
+					break
+			if is_empty:
+				empty_columns.add(col_idx)
+		
+		# Create new data without empty columns
+		new_data = []
+		for row in self.data:
+			new_row = []
+			for col_idx, cell in enumerate(row):
+				if col_idx not in empty_columns:
+					new_row.append(cell)
+			new_data.append(new_row)
+		
+		# Update data and dimensions
+		self.data = new_data
+		self.row_count = len(new_data)
+		self.column_count = max(len(row) for row in new_data) if new_data else 0
+	
+	def clean_data_inplace(self) -> None:
+		"""Removes both empty rows and empty columns from the worksheet in place.
+		
+		Modifies the current worksheet object.
+		"""
+		# First remove empty rows, then empty columns
+		self.remove_empty_rows_inplace()
+		self.remove_empty_columns_inplace()
+	
 	def __iter__(self) -> Iterator[Cell]:
 		"""Iterator over all cells in the worksheet."""
 		return iter(self.get_all_cells())

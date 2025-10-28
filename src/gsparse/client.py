@@ -201,29 +201,3 @@ class GSParseClient:
 		spreadsheet = self.load_spreadsheet(url, format_type)
 		return spreadsheet.find_cells_by_pattern(pattern)
 	
-	def load_clean_spreadsheet(self, url: str, format_type: str = "xlsx") -> Spreadsheet:
-		"""Loads spreadsheet and removes empty rows and columns.
-		
-		Args:
-			url: Google Sheets table URL
-			format_type: Export format type ("xlsx" or "csv")
-			
-		Returns:
-			Cleaned Spreadsheet object
-		"""
-		spreadsheet = self.load_spreadsheet(url, format_type)
-		return spreadsheet.clean_data()
-	
-	def load_clean_worksheet(self, url: str, worksheet_name: Optional[str] = None, format_type: str = "xlsx") -> Worksheet:
-		"""Loads specific worksheet and removes empty rows and columns.
-		
-		Args:
-			url: Google Sheets table URL
-			worksheet_name: Worksheet name (if None, loads first)
-			format_type: Export format type ("xlsx" or "csv")
-			
-		Returns:
-			Cleaned Worksheet object
-		"""
-		worksheet = self.load_worksheet(url, worksheet_name, format_type)
-		return worksheet.clean_data()

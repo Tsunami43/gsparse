@@ -162,56 +162,7 @@ class Spreadsheet:
 			result[worksheet.name] = worksheet.get_data_as_dict(headers_row)
 		return result
 	
-	def remove_empty_rows(self) -> 'Spreadsheet':
-		"""Removes empty rows from all worksheets.
-		
-		Returns:
-			New Spreadsheet instance without empty rows
-		"""
-		cleaned_worksheets = []
-		for worksheet in self.worksheets:
-			cleaned_worksheet = worksheet.remove_empty_rows()
-			cleaned_worksheets.append(cleaned_worksheet)
-		
-		return Spreadsheet(
-			title=self.title,
-			worksheets=cleaned_worksheets,
-			url=self.url
-		)
 	
-	def remove_empty_columns(self) -> 'Spreadsheet':
-		"""Removes empty columns from all worksheets.
-		
-		Returns:
-			New Spreadsheet instance without empty columns
-		"""
-		cleaned_worksheets = []
-		for worksheet in self.worksheets:
-			cleaned_worksheet = worksheet.remove_empty_columns()
-			cleaned_worksheets.append(cleaned_worksheet)
-		
-		return Spreadsheet(
-			title=self.title,
-			worksheets=cleaned_worksheets,
-			url=self.url
-		)
-	
-	def clean_data(self) -> 'Spreadsheet':
-		"""Removes both empty rows and empty columns from all worksheets.
-		
-		Returns:
-			New Spreadsheet instance with cleaned data
-		"""
-		cleaned_worksheets = []
-		for worksheet in self.worksheets:
-			cleaned_worksheet = worksheet.clean_data()
-			cleaned_worksheets.append(cleaned_worksheet)
-		
-		return Spreadsheet(
-			title=self.title,
-			worksheets=cleaned_worksheets,
-			url=self.url
-		)
 	
 	def __iter__(self) -> Iterator[Worksheet]:
 		"""Iterator over all worksheets in the spreadsheet."""
