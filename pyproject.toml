@@ -2,12 +2,22 @@
 name = "gsparse"
 version = "0.2.0"
 description = "Google Sheets Parser"
+license = {text = "MIT"}
+authors = [
+    {name = "Tsunami43", email = "n3m0_22@mail.ru"}
+]
+keywords = ["google-sheets", "parser", "excel", "xlsx", "csv", "data-extraction", "spreadsheet"]
 requires-python = ">=3.10"
 dependencies = [
     "requests==2.31.0",
     "chardet==5.2.0",
     "openpyxl==3.1.2",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Tsunami43/gsparse.git"
+Repository = "https://github.com/Tsunami43/gsparse.git"
+Issues = "https://github.com/Tsunami43/gsparse/issues"
 
 [dependency-groups]
 dev = [
