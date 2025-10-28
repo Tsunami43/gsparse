@@ -1,4 +1,4 @@
-"""Тесты для основных сущностей."""
+"""Tests for core entities."""
 
 import pytest
 from src.gsparse.core import Cell, Range, Worksheet, Spreadsheet
@@ -30,15 +30,15 @@ class TestCell:
 		assert Cell(1, 1, None).is_empty
 		assert Cell(1, 1, "").is_empty
 		assert Cell(1, 1, "   ").is_empty
-		assert not Cell(1, 1, "Тест").is_empty
+		assert not Cell(1, 1, "Test").is_empty
 	
 	def test_cell_validation(self):
 		"""Test cell validation."""
 		with pytest.raises(ValueError):
-			Cell(0, 1, "Тест")
+			Cell(0, 1, "Test")
 		
 		with pytest.raises(ValueError):
-			Cell(1, 0, "Тест")
+			Cell(1, 0, "Test")
 
 
 class TestRange:
@@ -100,16 +100,16 @@ class TestWorksheet:
 	def test_worksheet_creation(self):
 		"""Test worksheet creation."""
 		data = [["A", "B"], ["1", "2"]]
-		worksheet = Worksheet("Тест", data, 2, 2)
+		worksheet = Worksheet("Test", data, 2, 2)
 		
-		assert worksheet.name == "Тест"
+		assert worksheet.name == "Test"
 		assert worksheet.row_count == 2
 		assert worksheet.column_count == 2
 	
 	def test_worksheet_get_cell(self):
 		"""Test getting cell."""
 		data = [["A", "B"], ["1", "2"]]
-		worksheet = Worksheet("Тест", data, 2, 2)
+		worksheet = Worksheet("Test", data, 2, 2)
 		
 		cell = worksheet.get_cell(1, 1)
 		assert cell.value == "A"

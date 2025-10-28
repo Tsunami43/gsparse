@@ -1,4 +1,4 @@
-"""Модули для загрузки данных из Google Sheets."""
+"""Modules for downloading data from Google Sheets."""
 
 from .google_sheets_downloader import GoogleSheetsDownloader
 

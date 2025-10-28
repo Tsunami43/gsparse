@@ -45,7 +45,7 @@ class GSParseClient:
 			Exception: If loading or parsing error occurred
 		"""
 		if not URLUtils.is_google_sheets_url(url):
-			raise ValueError(f"Невалидный URL Google Sheets: {url}")
+			raise ValueError(f"Invalid Google Sheets URL: {url}")
 		
 		# Show deprecation warning for CSV format
 		if format_type == "csv":
@@ -89,11 +89,11 @@ class GSParseClient:
 				worksheets.append(worksheet)
 			except Exception as e:
 				# If unable to load worksheet, skip it
-				print(f"Предупреждение: не удалось загрузить лист '{sheet_name}': {e}")
+				print(f"Warning: failed to load worksheet '{sheet_name}': {e}")
 				continue
 		
 		if not worksheets:
-			raise Exception("Не удалось загрузить ни одного листа")
+			raise Exception("Failed to load any worksheets")
 		
 		return Spreadsheet(
 			title=worksheets[0].name,
@@ -117,12 +117,12 @@ class GSParseClient:
 		if worksheet_name:
 			worksheet = spreadsheet.get_worksheet(worksheet_name)
 			if not worksheet:
-				raise ValueError(f"Лист '{worksheet_name}' не найден")
+				raise ValueError(f"Worksheet '{worksheet_name}' not found")
 			return worksheet
 		else:
 			first_worksheet = spreadsheet.get_first_worksheet()
 			if not first_worksheet:
-				raise ValueError("Таблица не содержит листов")
+				raise ValueError("Spreadsheet contains no worksheets")
 			return first_worksheet
 	
 	def load_from_csv_string(self, csv_string: str, worksheet_name: str = "Sheet1") -> Worksheet:

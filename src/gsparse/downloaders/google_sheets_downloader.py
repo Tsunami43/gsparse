@@ -95,7 +95,7 @@ class GoogleSheetsDownloader:
 			Export URL
 		"""
 		if format_type not in self.FORMATS:
-			raise ValueError(f"Неподдерживаемый формат: {format_type}")
+			raise ValueError(f"Unsupported format: {format_type}")
 		
 		url = self.EXPORT_BASE_URL.format(sheet_id=sheet_id)
 		params = {"format": self.FORMATS[format_type]}
@@ -123,11 +123,11 @@ class GoogleSheetsDownloader:
 			requests.RequestException: If download error occurred
 		"""
 		if not self.is_valid_google_sheets_url(url):
-			raise ValueError(f"Невалидный URL Google Sheets: {url}")
+			raise ValueError(f"Invalid Google Sheets URL: {url}")
 		
 		sheet_id = self.extract_sheet_id(url)
 		if not sheet_id:
-			raise ValueError("Не удалось извлечь ID таблицы из URL")
+			raise ValueError("Failed to extract sheet ID from URL")
 		
 		export_url = self.get_export_url(sheet_id, format_type, gid)
 		
@@ -136,7 +136,7 @@ class GoogleSheetsDownloader:
 			response.raise_for_status()
 			return response.content
 		except requests.RequestException as e:
-			raise requests.RequestException(f"Ошибка при скачивании таблицы: {e}")
+			raise requests.RequestException(f"Error downloading spreadsheet: {e}")
 	
 	def get_sheet_info(self, url: str) -> Dict[str, Any]:
 		"""Gets information about the sheet.
@@ -148,11 +148,11 @@ class GoogleSheetsDownloader:
 			Dictionary with sheet information
 		"""
 		if not self.is_valid_google_sheets_url(url):
-			raise ValueError(f"Невалидный URL Google Sheets: {url}")
+			raise ValueError(f"Invalid Google Sheets URL: {url}")
 		
 		sheet_id = self.extract_sheet_id(url)
 		if not sheet_id:
-			raise ValueError("Не удалось извлечь ID таблицы из URL")
+			raise ValueError("Failed to extract sheet ID from URL")
 		
 		# Try to get information via API (if available)
 		# For now, return basic information

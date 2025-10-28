@@ -1,1 +1,1 @@
-"""Тесты для библиотеки gsparse."""
+"""Tests for gsparse library."""

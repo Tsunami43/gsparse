@@ -1,4 +1,4 @@
-"""Основные сущности библиотеки."""
+"""Core entities of the library."""
 
 from .spreadsheet import Spreadsheet
 from .worksheet import Worksheet

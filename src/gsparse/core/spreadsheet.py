@@ -87,7 +87,7 @@ class Spreadsheet:
 		"""
 		# Check that a sheet with this name doesn't already exist
 		if self.get_worksheet(worksheet.name):
-			raise ValueError(f"Лист с именем '{worksheet.name}' уже существует")
+			raise ValueError(f"Worksheet with name '{worksheet.name}' already exists")
 		
 		self.worksheets.append(worksheet)
 	
@@ -172,7 +172,7 @@ class Spreadsheet:
 		"""Allows accessing worksheets like dictionary elements."""
 		worksheet = self.get_worksheet(name)
 		if worksheet is None:
-			raise KeyError(f"Лист '{name}' не найден")
+			raise KeyError(f"Worksheet '{name}' not found")
 		return worksheet
 	
 	def __contains__(self, name: str) -> bool:

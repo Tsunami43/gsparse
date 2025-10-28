@@ -73,7 +73,7 @@ class URLUtils:
 		"""
 		sheet_id = URLUtils.extract_sheet_id(url)
 		if not sheet_id:
-			raise ValueError("Не удалось извлечь ID таблицы из URL")
+			raise ValueError("Failed to extract sheet ID from URL")
 		
 		return f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit"
 	
@@ -89,6 +89,6 @@ class URLUtils:
 		"""
 		sheet_id = URLUtils.extract_sheet_id(url)
 		if not sheet_id:
-			raise ValueError("Не удалось извлечь ID таблицы из URL")
+			raise ValueError("Failed to extract sheet ID from URL")
 		
 		return f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit#gid=0"

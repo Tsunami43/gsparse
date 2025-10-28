@@ -1,4 +1,4 @@
-"""Модули для парсинга скачанных данных."""
+"""Modules for parsing downloaded data."""
 
 from .csv_parser import CSVParser
 from .xlsx_parser import XLSXParser

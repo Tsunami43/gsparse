@@ -124,9 +124,9 @@ class DataUtils:
 		
 		if isinstance(value, str):
 			cleaned = value.strip().lower()
-			if cleaned in ['true', '1', 'yes', 'да', 'истина']:
+			if cleaned in ['true', '1', 'yes']:
 				return True
-			elif cleaned in ['false', '0', 'no', 'нет', 'ложь']:
+			elif cleaned in ['false', '0', 'no']:
 				return False
 		
 		return None

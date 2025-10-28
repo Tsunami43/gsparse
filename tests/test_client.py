@@ -1,4 +1,4 @@
-"""Тесты для GSParseClient."""
+"""Tests for GSParseClient."""
 
 import pytest
 from src.gsparse import GSParseClient
