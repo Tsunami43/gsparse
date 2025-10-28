@@ -15,12 +15,14 @@ logger = logging.getLogger(__name__)
 class XLSXParser(BaseParser):
 	"""Parser for XLSX data from Google Sheets."""
 
-	def __init__(self, data_only: bool = True):
+	def __init__(self, data_only: bool = True, preserve_strings: bool = False):
 		"""Initialize parser.
 
 		Args:
 		    data_only: If True, only read cell values, not formulas
+		    preserve_strings: If True, all values will be kept as strings without type conversion
 		"""
+		super().__init__(preserve_strings)
 		self.data_only = data_only
 
 	def parse(self, data: bytes, worksheet_name: str = 'Sheet1') -> Worksheet:

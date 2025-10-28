@@ -15,7 +15,11 @@ class CSVParser(BaseParser):
 	"""Parser for CSV data from Google Sheets."""
 
 	def __init__(
-		self, delimiter: str = ',', quotechar: str = '"', encoding: str | None = None
+		self,
+		delimiter: str = ',',
+		quotechar: str = '"',
+		encoding: str | None = None,
+		preserve_strings: bool = False,
 	):
 		"""Initialize parser.
 
@@ -23,7 +27,9 @@ class CSVParser(BaseParser):
 			delimiter: Field delimiter
 			quotechar: Quote character
 			encoding: Encoding (if None, auto-detected)
+			preserve_strings: If True, all values will be kept as strings without type conversion
 		"""
+		super().__init__(preserve_strings)
 		self.delimiter = delimiter
 		self.quotechar = quotechar
 		self.encoding = encoding

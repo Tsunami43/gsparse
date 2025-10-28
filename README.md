@@ -1,5 +1,5 @@
 # GSParse - Google Sheets Parser Library
-![Python](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)![Version](https://img.shields.io/badge/version-0.2.1-green)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)![Version](https://img.shields.io/badge/version-0.2.2-green)
 
 Library for extracting data from Google Sheets by URL. Supports working with multiple worksheets in a single spreadsheet.
 

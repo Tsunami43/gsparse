@@ -1,6 +1,6 @@
 [project]
 name = "gsparse"
-version = "0.2.1"
+version = "0.2.2"
 description = "Google Sheets Parser"
 readme = "README.md"
 license = {text = "MIT"}

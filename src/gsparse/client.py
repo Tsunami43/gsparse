@@ -20,16 +20,20 @@ class GSParseClient:
 	Provides convenient interface for loading and parsing Google Sheets.
 	"""
 
-	def __init__(self, timeout: int = 30, max_retries: int = 3):
+	def __init__(
+		self, timeout: int = 30, max_retries: int = 3, preserve_strings: bool = False
+	):
 		"""Initialize client.
 
 		Args:
 			timeout: Request timeout in seconds
 			max_retries: Maximum number of retry attempts
+			preserve_strings: If True, all values will be kept as strings without type conversion
 		"""
 		self.downloader = GoogleSheetsDownloader(timeout, max_retries)
-		self.csv_parser = CSVParser()
-		self.xlsx_parser = XLSXParser()
+		self.csv_parser = CSVParser(preserve_strings=preserve_strings)
+		self.xlsx_parser = XLSXParser(preserve_strings=preserve_strings)
+		self.preserve_strings = preserve_strings
 
 	def load_spreadsheet(self, url: str, format_type: str = 'xlsx') -> Spreadsheet:
 		"""Loads and parses Google Sheets table.
@@ -138,7 +142,9 @@ class GSParseClient:
 		)
 
 		# Create parser with detected delimiter
-		parser = CSVParser(delimiter=detected_delimiter)
+		parser = CSVParser(
+			delimiter=detected_delimiter, preserve_strings=self.preserve_strings
+		)
 
 		return parser.parse_from_string(csv_string, worksheet_name)
 
