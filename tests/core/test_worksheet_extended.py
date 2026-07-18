@@ -223,6 +223,26 @@ class TestWorksheetExtended:
 		assert result[1]['Age'] == 30
 		assert result[1]['City'] == ''
 
+	def test_get_data_as_dict_empty_header_in_middle(self):
+		"""A blank header in the middle must not shift the remaining columns.
+
+		Regression: values were mapped positionally against the filtered
+		header list, so an empty middle header pulled later columns left
+		(e.g. 'City' picked up the Age value instead of the City value).
+		"""
+		data = [
+			['Name', None, 'City'],
+			['John', 25, 'Moscow'],
+			['Mary', 30, 'SPb'],
+		]
+		worksheet = Worksheet('GapHeader', data, 3, 3)
+		result = worksheet.get_data_as_dict()
+
+		assert result == [
+			{'Name': 'John', 'City': 'Moscow'},
+			{'Name': 'Mary', 'City': 'SPb'},
+		]
+
 	def test_get_data_as_dict_with_mixed_types(self):
 		"""Test getting data as dict with mixed types."""
 		data = [['Name', 'Age', 'Active'], ['John', 25, True], ['Mary', 30, False]]

@@ -44,10 +44,13 @@ class URLUtils:
 			Worksheet GID or None
 		"""
 		parsed = urlparse(url)
-		query_params = parse_qs(parsed.query)
 
-		if 'gid' in query_params:
-			return query_params['gid'][0]
+		# gid may live in the query string (?gid=) or, as Google Sheets uses
+		# in the browser address bar, in the URL fragment (#gid=).
+		for part in (parsed.query, parsed.fragment):
+			params = parse_qs(part)
+			if 'gid' in params:
+				return params['gid'][0]
 
 		return None
 

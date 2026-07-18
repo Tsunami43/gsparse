@@ -184,9 +184,14 @@ class Worksheet:
 		if not self.data or headers_row > self.row_count:
 			return []
 
-		# Get headers
+		# Get headers, keeping each one bound to its column index so that
+		# values stay aligned even when some header cells are empty.
 		header_cells = self.get_row(headers_row)
-		headers = [cell.value for cell in header_cells if cell and not cell.is_empty]
+		headers = [
+			(idx, cell.value)
+			for idx, cell in enumerate(header_cells)
+			if cell and not cell.is_empty
+		]
 
 		if not headers:
 			return []
@@ -197,9 +202,9 @@ class Worksheet:
 			row_cells = self.get_row(row_num)
 			row_data = {}
 
-			for i, cell in enumerate(row_cells):
-				if i < len(headers):
-					row_data[headers[i]] = cell.value if cell else None
+			for col_idx, header in headers:
+				cell = row_cells[col_idx] if col_idx < len(row_cells) else None
+				row_data[header] = cell.value if cell else None
 
 			result.append(row_data)
 

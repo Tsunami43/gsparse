@@ -54,8 +54,8 @@ class TestURLUtils:
 		"""Test extracting GID from URL with gid parameter."""
 		url = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=123456'
 		gid = URLUtils.extract_gid(url)
-		# Current implementation doesn't handle hash fragments, so it returns None
-		assert gid is None
+		# Google Sheets puts the gid in the URL fragment (#gid=)
+		assert gid == '123456'
 
 	def test_extract_gid_with_query_param(self):
 		"""Test extracting GID from URL with gid query parameter."""
@@ -171,8 +171,8 @@ class TestURLUtils:
 		"""Test extracting GID from URL with hash fragment."""
 		url = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=789012'
 		gid = URLUtils.extract_gid(url)
-		# Current implementation doesn't handle hash fragments, so it returns None
-		assert gid is None
+		# Google Sheets puts the gid in the URL fragment (#gid=)
+		assert gid == '789012'
 
 	def test_is_google_sheets_url_case_insensitive(self):
 		"""Test validation with case insensitive domain."""
