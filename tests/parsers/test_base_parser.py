@@ -102,3 +102,30 @@ class TestBaseParser:
 		result = parser._clean_cell_value('\\u0020\\u0020')
 		# The actual result depends on the implementation
 		assert result in [None, '\\u0020\\u0020']
+
+	def test_clean_cell_value_float_not_mangled_as_date(self):
+		"""Floats must be preserved as-is and never rewritten as dates.
+
+		Regression: the date-guessing heuristic turned floats like 3.1 into
+		the string '3.10', corrupting ordinary numeric data.
+		"""
+		parser = ConcreteParser()
+		for value in [3.1, 1.1, 5.1, 28.1, 29.1, 31.1, 2.5, 100.1]:
+			result = parser._clean_cell_value(value)
+			assert result == value
+			assert isinstance(result, float)
+
+	def test_clean_cell_value_decimal_string_not_mangled_as_date(self):
+		"""Decimal-looking strings must be preserved verbatim."""
+		parser = ConcreteParser()
+		# European decimal separator must not be rewritten to a dot.
+		assert parser._clean_cell_value('1,5') == '1,5'
+		assert parser._clean_cell_value('2.5') == '2.5'
+		assert parser._clean_cell_value('12.5') == '12.5'
+
+	def test_clean_cell_value_preserve_strings_stringifies_floats(self):
+		"""preserve_strings=True converts values to str without date guessing."""
+		parser = ConcreteParser(preserve_strings=True)
+		assert parser._clean_cell_value(3.1) == '3.1'
+		assert parser._clean_cell_value(28.1) == '28.1'
+		assert parser._clean_cell_value(42) == '42'
